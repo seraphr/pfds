@@ -13,6 +13,7 @@ trait Heap {
   val merge: (Heap, Heap) => Heap
   val findMin: Heap => elem.T
   val deleteMin: Heap => Heap
+  val fromList: List[elem.T] => Heap
 
   case object EmptyException extends RuntimeException
 }
@@ -74,6 +75,16 @@ abstract class LeftistHeap extends Heap {
     case E => throw EmptyException
     case T(_, _, a, b) => merge(a, b)
   }
+
+  /** 演習問題 3.3 */
+  private def mergeList(aList: List[Heap]): List[Heap] = aList match {
+    case Nil => List(empty)
+    case r@List(_) => r
+    case List(e1, e2) => List(merge(e1, e2))
+    case e1 :: e2 :: tail => mergeList(merge(e1, e2) :: mergeList(tail))
+  }
+
+  override val fromList: List[elem.T] => Heap = aList => mergeList(aList.map(single)).head
 
   def checkRealRank(h: Heap): Boolean = h match {
     case E => true
