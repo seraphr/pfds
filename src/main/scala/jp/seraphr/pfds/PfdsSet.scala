@@ -3,7 +3,7 @@ package jp.seraphr.pfds
 /**
   */
 trait PfdsSet {
-  type Elem <: Ordered[Elem]
+  type Elem
   type Set
 
   val empty: Set
@@ -11,13 +11,16 @@ trait PfdsSet {
   val member: (Elem, Set) => Boolean
 }
 
-trait TreeSet extends PfdsSet {
+trait TreeSetBase extends PfdsSet {
   sealed trait Tree
   case object E extends Tree
   case class T(l: Tree, e: Elem, r: Tree) extends Tree
 
-  type Set = Tree
+  override type Set = Tree
+}
 
+trait TreeSet extends TreeSetBase {
+  override type Elem <: Ordered[Elem]
   override val empty: Set = E
 
 
