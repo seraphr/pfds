@@ -11,12 +11,8 @@ trait PfdsSet {
   val member: (Elem, Set) => Boolean
 }
 
-trait TreeSetBase extends PfdsSet {
-  sealed trait Tree
-  case object E extends Tree
-  case class T(l: Tree, e: Elem, r: Tree) extends Tree
-
-  override type Set = Tree
+trait TreeSetBase extends PfdsSet with TreeModule {
+  type Set = Tree
 }
 
 trait TreeSet extends TreeSetBase {
