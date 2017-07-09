@@ -21,7 +21,7 @@ trait TreeSet extends PfdsSet {
   override val empty: Set = E
 
 
-  /** 課題2-2  */
+  /** 演習問題2.2  */
   private def memberImpl(aElem: Elem, aSet: Set, aCandidate: Option[Elem]): Boolean = (aElem, aSet) match {
     case (x, E) => aCandidate.fold(false)(_.compare(x) == 0)
     case (x, T(a, y, b)) =>
@@ -29,21 +29,20 @@ trait TreeSet extends PfdsSet {
       else memberImpl(x, b, aCandidate)
   }
 
-  /** 課題2-2  */
   override val member: (Elem, Set) => Boolean = memberImpl(_, _, None)
 
-  //  override val member: (Elem, Set) => Boolean = {
-  //    case (_, E) => false
-  //    case (x, T(a, y, b)) =>
-  //      if(x < y) member(x, a)
-  //      else if(y < x) member(x, b)
-  //      else true
-  //  }
-  override val insert: (Elem, Set) => Set = {
+  case object SameElementException extends RuntimeException
+
+  /** 演習問題2.3  */
+  private def insertImpl(aElem: Elem, aSet: Set): Set = (aElem, aSet) match {
     case (x, E) => T(E, x, E)
     case (x, s@T(a, y, b)) =>
-      if (x < y) T(insert(x, a), y, b)
-      else if (y < x) T(a, y, insert(x, b))
-      else s
+      if (x < y) T(insertImpl(x, a), y, b)
+      else if (y < x) T(a, y, insertImpl(x, b))
+      else throw SameElementException
+  }
+
+  override val insert: (Elem, Set) => Set = (aElem, aSet) => try insertImpl(aElem, aSet) catch {
+    case SameElementException => aSet
   }
 }
