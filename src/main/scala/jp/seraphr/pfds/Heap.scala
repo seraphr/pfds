@@ -3,7 +3,7 @@ package jp.seraphr.pfds
 /**
  */
 trait Heap {
-  protected val elem: PfdsOrdered
+  val elem: PfdsOrdered
 
   type Heap
 
