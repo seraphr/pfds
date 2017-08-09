@@ -46,6 +46,15 @@ abstract class BinomialHeap extends Heap {
   }
 
   override val findMin: (Heap) => elem.T = removeMinTree(_)._1.v
+  /* 課題 3.5 */
+  val findMin2: Heap => elem.T = {
+    case Nil      => throw new RuntimeException("empty heap")
+    case t :: Nil => t.v
+    case Tree(_, m1, _) :: ts =>
+      val m2 = findMin2(ts)
+      if (elem.leq(m1, m2)) m1 else m2
+  }
+
   override val deleteMin: (Heap) => Heap = { ts =>
     val (Tree(_, _, ts1), ts2) = removeMinTree(ts)
     merge(ts1.reverse, ts2)
