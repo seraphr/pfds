@@ -15,7 +15,7 @@ trait UnbalancedSet extends TreeSetBase {
 
   override val insert: (Elem, Set) => Set = {
     case (x, E) => T(E, x, E)
-    case (x, s@T(a, y, b)) =>
+    case (x, s @ T(a, y, b)) =>
       if (lt(x, y)) T(insert(x, a), y, b)
       else if (lt(y, x)) T(a, y, insert(x, b))
       else s

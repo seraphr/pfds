@@ -3,7 +3,7 @@ package jp.seraphr.pfds
 import scala.language.higherKinds
 
 /**
-  */
+ */
 trait FiniteMap {
   type Key
   type Map[A]
@@ -28,16 +28,16 @@ trait TreeFiniteMap extends FiniteMap {
   override def lookup[A](k: Key, m: Map[A]): A = m match {
     case E => throw NotFoundException(k)
     case T(a, (k2, v), b) =>
-      if(lt(k, k2)) lookup(k, a)
-      else if(lt(k2, k)) lookup(k, b)
+      if (lt(k, k2)) lookup(k, a)
+      else if (lt(k2, k)) lookup(k, b)
       else v
   }
 
   override def bind[A](k: Key, v: A, m: Map[A]): Map[A] = m match {
     case E => T(empty, (k, v), empty)
     case T(a, (k2, _), b) =>
-      if(lt(k, k2)) bind(k, v, a)
-      else if(lt(k2, k)) bind(k, v, b)
+      if (lt(k, k2)) bind(k, v, a)
+      else if (lt(k2, k)) bind(k, v, b)
       else T(a, (k, v), b)
   }
 }

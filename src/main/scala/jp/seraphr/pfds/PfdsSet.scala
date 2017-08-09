@@ -1,7 +1,7 @@
 package jp.seraphr.pfds
 
 /**
-  */
+ */
 trait PfdsSet {
   type Elem
   type Set
@@ -18,7 +18,6 @@ trait TreeSetBase extends PfdsSet with TreeModule {
 trait TreeSet extends TreeSetBase {
   override type Elem <: Ordered[Elem]
   override val empty: Set = E
-
 
   /** 演習問題2.2  */
   private def memberImpl(aElem: Elem, aSet: Set, aCandidate: Option[Elem]): Boolean = (aElem, aSet) match {
@@ -41,12 +40,11 @@ trait TreeSet extends TreeSetBase {
   //      else throw SameElementException
   //  }
 
-
   /** 演習問題2.4  */
   private def insertImpl(aElem: Elem, aSet: Set, aCandidate: Option[Elem]): Set = (aElem, aSet) match {
     case (x, E) if aCandidate.fold(false)(_.compare(x) == 0) => throw SameElementException
-    case (x, E) => T(E, x, E)
-    case (x, s@T(a, y, b)) =>
+    case (x, E)                                              => T(E, x, E)
+    case (x, s @ T(a, y, b)) =>
       if (x <= y) T(insertImpl(x, a, Some(y)), y, b)
       else T(a, y, insertImpl(x, b, aCandidate))
   }
@@ -63,7 +61,6 @@ trait TreeSet extends TreeSetBase {
       T(tTree, aElem, tTree)
     }
   }
-
 
   /** 演習課題2.5 (b) */
   private def create2(aElem: Elem, aSize: Int): (Set, Set) = (complete(aElem, aSize), complete(aElem, aSize + 1))

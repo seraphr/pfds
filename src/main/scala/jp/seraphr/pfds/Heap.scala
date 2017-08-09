@@ -1,7 +1,7 @@
 package jp.seraphr.pfds
 
 /**
-  */
+ */
 trait Heap {
   protected val elem: PfdsOrdered
 
@@ -32,7 +32,7 @@ abstract class LeftistHeap extends Heap {
   override val empty: Heap = E
   override val isEmpty: Heap => Boolean = _ == empty
   def rank(h: Heap): Int = h match {
-    case E => 0
+    case E             => 0
     case T(r, _, _, _) => r
   }
   private def makeT(x: elem.T, a: Heap, b: Heap): Heap = {
@@ -42,7 +42,7 @@ abstract class LeftistHeap extends Heap {
   override val merge: (Heap, Heap) => Heap = {
     case (h, E) => h
     case (E, h) => h
-    case (h1@T(_, x, a1, b1), h2@T(_, y, a2, b2)) =>
+    case (h1 @ T(_, x, a1, b1), h2 @ T(_, y, a2, b2)) =>
       if (elem.leq(x, y)) makeT(x, a1, merge(b1, h2))
       else makeT(y, a2, merge(h1, b2))
   }
@@ -68,19 +68,19 @@ abstract class LeftistHeap extends Heap {
   }
 
   override val findMin: (Heap) => elem.T = {
-    case E => throw EmptyException
+    case E             => throw EmptyException
     case T(_, x, _, _) => x
   }
   override val deleteMin: (Heap) => Heap = {
-    case E => throw EmptyException
+    case E             => throw EmptyException
     case T(_, _, a, b) => merge(a, b)
   }
 
   /** 演習問題 3.3 */
   private def mergeList(aList: List[Heap]): List[Heap] = aList match {
-    case Nil => List(empty)
-    case r@List(_) => r
-    case List(e1, e2) => List(merge(e1, e2))
+    case Nil              => List(empty)
+    case r @ List(_)      => r
+    case List(e1, e2)     => List(merge(e1, e2))
     case e1 :: e2 :: tail => mergeList(merge(e1, e2) :: mergeList(tail))
   }
 
@@ -99,7 +99,7 @@ abstract class LeftistHeap extends Heap {
 
   def checkLeftist(h: Heap): Boolean = h match {
     case E => true
-    case h@T(r, x, a, b) =>
+    case h @ T(r, x, a, b) =>
       val tLeftRank = rank(a)
       val tRightRank = rank(b)
       tLeftRank >= tRightRank && checkLeftist(a) && checkLeftist(b)
@@ -111,7 +111,7 @@ abstract class LeftistHeap extends Heap {
     lazy val tCheckLeftist = checkLeftist(h)
     lazy val tCheckMin =
       h match {
-        case E => true
+        case E             => true
         case T(_, x, _, _) => checkMin(h, x)
       }
 

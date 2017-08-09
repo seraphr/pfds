@@ -1,4 +1,13 @@
 import Dependencies._
+import com.typesafe.sbt.SbtScalariform.ScalariformKeys
+import scalariform.formatter.preferences.{AlignSingleLineCaseStatements, DoubleIndentClassDeclaration}
+
+val RiformSettings = (
+  ScalariformKeys.preferences := (ScalariformKeys.preferences.value
+    .setPreference(AlignSingleLineCaseStatements, true)
+    .setPreference(AlignSingleLineCaseStatements.MaxArrowIndent, 60))
+    .setPreference(DoubleIndentClassDeclaration, false))
+
 
 lazy val root = (project in file(".")).
   settings(
@@ -8,5 +17,6 @@ lazy val root = (project in file(".")).
       version      := "0.1.0-SNAPSHOT"
     )),
     name := "pfds",
-    libraryDependencies += scalaTest % Test
+    libraryDependencies += scalaTest % Test,
+    RiformSettings
   )

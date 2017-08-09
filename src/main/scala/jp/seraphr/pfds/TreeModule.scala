@@ -1,7 +1,7 @@
 package jp.seraphr.pfds
 
 /**
-  */
+ */
 trait TreeModule {
   type Elem
   sealed trait Tree

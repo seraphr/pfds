@@ -1,7 +1,7 @@
 package jp.seraphr.pfds
 
 /**
-  */
+ */
 trait PfdsOrdered {
   type T
   def eq(a: T, b: T): Boolean

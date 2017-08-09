@@ -1,11 +1,11 @@
 package jp.seraphr.pfds.sandbox
 
-import jp.seraphr.pfds.{LeftistHeap, PfdsOrdered}
+import jp.seraphr.pfds.{ LeftistHeap, PfdsOrdered }
 import jp.seraphr.pfds.sandbox.IntHeap.IntOrdered
 
 /**
-  */
-object IntHeap extends App{
+ */
+object IntHeap extends App {
   object IntOrdered extends PfdsOrdered {
     override type T = Int
     override def eq(a: Int, b: Int): Boolean = a == b
